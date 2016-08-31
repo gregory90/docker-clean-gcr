@@ -4,11 +4,11 @@
 # authenticate to google cloud
 echo "Authenticating to Google Cloud..."
 echo $DOCKER_KEYFILE > /key.json
-/google-cloud-sdk/bin/gcloud auth activate-service-account "$GCLOUD_ACCOUNT" --key-file /key.json --project "$GCLOUD_PROJECT" -q
+gcloud auth activate-service-account "$GCLOUD_ACCOUNT" --key-file /key.json --project "$GCLOUD_PROJECT" -q
 
 echo "Getting first level of repos..."
 # first level of repos
-im=$(/google-cloud-sdk/bin/gcloud alpha container images list --repository=eu.gcr.io/pq-infrastructure)
+im=$(gcloud alpha container images list --repository=eu.gcr.io/pq-infrastructure)
 IFS=$'\n' read -rd '' -a images <<<"$im"
 
 for image in "${images[@]}"
@@ -19,7 +19,7 @@ do
 
   echo "Repo found: $image"
   # second level of repos
-  im2=$(/google-cloud-sdk/bin/gcloud alpha container images list --repository=$image)
+  im2=$(gcloud alpha container images list --repository=$image)
 
   IFS=$'\n' read -rd '' -a images2 <<<"$im2"
   for image2 in "${images2[@]}"
@@ -30,7 +30,7 @@ do
     echo "Sub-repo found: $image2"
 
     # tags
-    ts=$(/google-cloud-sdk/bin/gcloud alpha container images list-tags $image2 | sort --reverse -k 3,3 | tail -n +6 | head -n -1)
+    ts=$(gcloud alpha container images list-tags $image2 | sort --reverse -k 3,3 | tail -n +6 | head -n -1)
 
     IFS=$'\n' read -rd '' -a tags <<<"$ts"
     for tag in "${tags[@]}"
