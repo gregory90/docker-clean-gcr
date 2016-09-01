@@ -34,8 +34,11 @@ do
     for tag in "${tags[@]}"
     do
       t=$(echo "$tag" | awk '{print $2}')
+      d=$(echo "$tag" | awk '{print $1}')
       echo "Deleting $image2:$t"
       echo 'y' | gcloud alpha container images delete $image2:$t -q
+      echo "Deleting $image2@$d"
+      echo 'y' | gcloud alpha container images delete $image2@$d -q
 
     done
 
