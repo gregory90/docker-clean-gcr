@@ -2,9 +2,9 @@
 
 echo "Authenticating to Google Cloud..."
 echo $DOCKER_KEYFILE_BASE64 | base64 --decode > /key.json
-gcloud auth activate-service-account "$GCLOUD_ACCOUNT" --key-file /key.json --project "$GCLOUD_PROJECT" -q
+gcloud auth activate-service-account --key-file /key.json --project "$GCLOUD_PROJECT" -q
 
-echo "Getting first level of repos..."
+echo "\nGetting first level of repos..."
 # first level of repos
 im=$(gcloud alpha container images list --repository=eu.gcr.io/pq-infrastructure)
 IFS=$'\n' read -rd '' -a images <<<"$im"
@@ -15,7 +15,7 @@ do
     continue
   fi
 
-  echo "Repo found: $image"
+  echo "\nRepo found: $image"
   # second level of repos
   im2=$(gcloud alpha container images list --repository=$image)
 
@@ -25,7 +25,7 @@ do
     if [ $image2 == "NAME" ]; then
       continue
     fi
-    echo "Sub-repo found: $image2"
+    echo "\nSub-repo found: $image2"
 
     # tags
     ts=$(gcloud alpha container images list-tags $image2 | sort --reverse -k 3,3 | tail -n +6 | head -n -1)
