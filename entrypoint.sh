@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Authenticating to Google Cloud..."
 echo $DOCKER_KEYFILE_BASE64 | base64 --decode > /key.json
