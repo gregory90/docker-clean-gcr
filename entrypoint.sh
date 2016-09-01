@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# clean repository
-# authenticate to google cloud
 echo "Authenticating to Google Cloud..."
 echo $DOCKER_KEYFILE > /key.json
 gcloud auth activate-service-account "$GCLOUD_ACCOUNT" --key-file /key.json --project "$GCLOUD_PROJECT" -q
