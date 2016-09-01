@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Authenticating to Google Cloud..."
-echo $DOCKER_KEYFILE > /key.json
+echo $DOCKER_KEYFILE_BASE64 | base64 --decode > /key.json
 gcloud auth activate-service-account "$GCLOUD_ACCOUNT" --key-file /key.json --project "$GCLOUD_PROJECT" -q
 
 echo "Getting first level of repos..."
