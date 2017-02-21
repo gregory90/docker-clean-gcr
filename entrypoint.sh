@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ -z "$GCLOUD_KEYFILE_BASE64" ] ; then
+    echo "GCLOUD_KEYFILE_BASE64 env is required!"
+    exit 1
+fi
+
+if [ -z "$GCLOUD_PROJECT" ] ; then
+    echo "GCLOUD_PROJECT env is required!"
+    exit 1
+fi
+
 echo "Authenticating to Google Cloud..."
 echo $GCLOUD_KEYFILE_BASE64 | base64 --decode > /key.json
 gcloud auth activate-service-account --key-file /key.json --project "$GCLOUD_PROJECT" -q
