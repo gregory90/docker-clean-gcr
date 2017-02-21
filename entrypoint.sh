@@ -33,9 +33,9 @@ do
     IFS=$'\n' read -rd '' -a tags <<<"$ts"
     for tag in "${tags[@]}"
     do
-      t=$(echo "$tag" | awk '{print $2}')
-      echo "Deleting $image2:$t"
-      echo 'y' | gcloud alpha container images delete $image2:$t -q
+      t=$(echo "$tag" | awk '{print $1}')
+      echo "Deleting $image2@sha256:$t"
+      echo 'y' | gcloud alpha container images delete $image2@sha256:$t -q
 
     done
 
